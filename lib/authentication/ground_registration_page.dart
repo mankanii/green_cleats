@@ -30,12 +30,12 @@ class _GroundRegistrationPageState extends State<GroundRegistrationPage> {
     return Scaffold(
       backgroundColor: AppColors.animationGreenColor,
       body: Container(
-        // decoration: BoxDecoration(
-        //   image: DecorationImage(
-        //     image: NetworkImage("assets/images/"),
-        //     fit: BoxFit.cover,
-        //   ),
-        // ),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage("assets/images/stadiumOutline.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Container(
           padding: const EdgeInsets.all(40),
           margin: new EdgeInsets.only(left: 0, top: 130, right: 0, bottom: 0),

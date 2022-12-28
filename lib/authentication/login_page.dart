@@ -2,9 +2,9 @@ import 'dart:js';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:green_cleats/apps/player_app.dart';
+import 'package:green_cleats/apps/PlayersApp/player_app.dart';
 import 'package:green_cleats/authentication/ground_registration_page.dart';
-import 'package:green_cleats/authentication/main_posting_page.dart';
+import 'package:green_cleats/apps/PlayersApp/main_posting_page.dart';
 import 'package:green_cleats/authentication/main_registration_page.dart';
 import 'package:green_cleats/authentication/trainer_registration_page.dart';
 import 'package:green_cleats/utils/colors.dart';
@@ -32,12 +32,12 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: AppColors.animationGreenColor,
       body: Container(
-        // decoration: BoxDecoration(
-        //   image: DecorationImage(
-        //     image: NetworkImage("assets/images/"),
-        //     fit: BoxFit.cover,
-        //   ),
-        // ),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage("assets/images/stadiumOutline.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Container(
           padding: const EdgeInsets.all(40),
           margin: new EdgeInsets.only(left: 0, top: 200, right: 0, bottom: 0),
@@ -68,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
-                    child: userInputWidget(),
+                    child: userInputWidget("Username/Email", Icons.person),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
@@ -167,14 +167,15 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget userInputWidget() {
+  Widget userInputWidget(text, icon) {
     return TextFormField(
       decoration: InputDecoration(
+        icon: Icon(icon, color: AppColors.whiteColor),
         labelStyle: TextStyle(
             color: AppColors.whiteColor,
             fontSize: 20,
             fontWeight: FontWeight.w400),
-        labelText: "Username/Email",
+        labelText: text,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: AppColors.whiteColor),
@@ -190,6 +191,7 @@ class _LoginPageState extends State<LoginPage> {
     return TextFormField(
         obscureText: true,
         decoration: InputDecoration(
+          icon: Icon(Icons.lock_rounded, color: AppColors.whiteColor),
           labelStyle: TextStyle(
               color: AppColors.whiteColor,
               fontSize: 20,

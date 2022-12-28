@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:green_cleats/authentication/main_posting_page.dart';
+import 'package:green_cleats/apps/PlayersApp/main_posting_page.dart';
 import 'package:green_cleats/authentication/main_registration_page.dart';
 import 'package:green_cleats/nav/bottom_nav.dart';
 
 import 'authentication/login_page.dart';
-import 'nav/top_nav.dart';
+// import 'nav/top_nav.dart';
 
 void main() {
   runApp(const MyApp());

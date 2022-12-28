@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:green_cleats/blogs_page.dart';
-import 'package:green_cleats/grounds_page.dart';
-import 'package:green_cleats/authentication/main_posting_page.dart';
-import 'package:green_cleats/more_page.dart';
-import 'package:green_cleats/trainer_page.dart';
+import 'package:green_cleats/apps/PlayersApp/Blogs/blogs_page.dart';
+import 'package:green_cleats/apps/PlayersApp/groundBooking/grounds_page.dart';
+import 'package:green_cleats/apps/PlayersApp/main_posting_page.dart';
+import 'package:green_cleats/apps/PlayersApp/more_page.dart';
+import 'package:green_cleats/apps/PlayersApp/trainer_page.dart';
 import 'package:green_cleats/utils/colors.dart';
 
 class BottomNavBar extends StatefulWidget {
