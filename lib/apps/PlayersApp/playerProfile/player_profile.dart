@@ -299,43 +299,43 @@ class _PlayerProfileState extends State<PlayerProfile> {
                             color: AppColors.animationBlueColor),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: Text(
-                        "Ratings",
-                        style: TextStyle(
-                            fontStyle: FontStyle.italic,
-                            fontSize: 20,
-                            color: AppColors.animationGreenColor),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Skill",
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: AppColors.animationBlueColor),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 3.0, right: 0, top: 0, bottom: 0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(Icons.star, color: AppColors.khakiColor),
-                                Icon(Icons.star, color: AppColors.khakiColor),
-                                Icon(Icons.star, color: AppColors.khakiColor),
-                                const Icon(Icons.star, color: Colors.grey),
-                                const Icon(Icons.star, color: Colors.grey),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(2.0),
+                    //   child: Text(
+                    //     "Ratings",
+                    //     style: TextStyle(
+                    //         fontStyle: FontStyle.italic,
+                    //         fontSize: 20,
+                    //         color: AppColors.animationGreenColor),
+                    //   ),
+                    // ),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(5.0),
+                    //   child: Row(
+                    //     children: [
+                    //       Text(
+                    //         "Skill",
+                    //         style: TextStyle(
+                    //             fontSize: 14,
+                    //             color: AppColors.animationBlueColor),
+                    //       ),
+                    //       Padding(
+                    //         padding: const EdgeInsets.only(
+                    //             left: 3.0, right: 0, top: 0, bottom: 0),
+                    //         child: Row(
+                    //           mainAxisSize: MainAxisSize.min,
+                    //           children: [
+                    //             Icon(Icons.star, color: AppColors.khakiColor),
+                    //             Icon(Icons.star, color: AppColors.khakiColor),
+                    //             Icon(Icons.star, color: AppColors.khakiColor),
+                    //             const Icon(Icons.star, color: Colors.grey),
+                    //             const Icon(Icons.star, color: Colors.grey),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.all(2.0),
                       child: Text(
@@ -356,36 +356,36 @@ class _PlayerProfileState extends State<PlayerProfile> {
                             color: AppColors.animationBlueColor),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Text(
-                        "Images",
-                        style: TextStyle(
-                            fontStyle: FontStyle.italic,
-                            fontSize: 20,
-                            color: AppColors.animationGreenColor),
-                      ),
-                    ),
-                    GridView.builder(
-                      shrinkWrap: true,
-                      itemCount: images.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              crossAxisSpacing: 4.0,
-                              mainAxisSpacing: 4.0),
-                      itemBuilder: (BuildContext context, int index) {
-                        return GridTile(
-                          child: InkWell(
-                              onTap: () async {
-                                await showDialog(
-                                    context: context,
-                                    builder: (_) => ImageDialog(index));
-                              },
-                              child: Image.network(images[index])),
-                        );
-                      },
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(5.0),
+                    //   child: Text(
+                    //     "Images",
+                    //     style: TextStyle(
+                    //         fontStyle: FontStyle.italic,
+                    //         fontSize: 20,
+                    //         color: AppColors.animationGreenColor),
+                    //   ),
+                    // ),
+                    // GridView.builder(
+                    //   shrinkWrap: true,
+                    //   itemCount: images.length,
+                    //   gridDelegate:
+                    //       const SliverGridDelegateWithFixedCrossAxisCount(
+                    //           crossAxisCount: 3,
+                    //           crossAxisSpacing: 4.0,
+                    //           mainAxisSpacing: 4.0),
+                    //   itemBuilder: (BuildContext context, int index) {
+                    //     return GridTile(
+                    //       child: InkWell(
+                    //           onTap: () async {
+                    //             await showDialog(
+                    //                 context: context,
+                    //                 builder: (_) => ImageDialog(index));
+                    //           },
+                    //           child: Image.network(images[index])),
+                    //     );
+                    //   },
+                    // ),
                   ],
                 ),
               ),

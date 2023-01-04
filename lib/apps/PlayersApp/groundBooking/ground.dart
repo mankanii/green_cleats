@@ -1,5 +1,6 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:green_cleats/apps/PlayersApp/groundBooking/ground_checkout.dart';
 import 'package:green_cleats/apps/PlayersApp/groundBooking/grounds_page.dart';
 
 import '../../../utils/colors.dart';
@@ -222,7 +223,12 @@ class _GroundPageState extends State<GroundPage> {
         backgroundColor: AppColors.animationBlueColor,
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => GroundCheckout()),
+          );
+        },
         backgroundColor: AppColors.animationGreenColor,
         label: const Text('4500 Rs / Per Hour - Book Now'),
       ),

@@ -71,6 +71,7 @@ flutter:
     - assets/images/blueGC.png
     - assets/images/stadiumOutline.png
     - assets/images/pic.jpg
+    - assets/images/success.gif
     # - images/a_dot_burr.jpeg
     # - images/a_dot_ham.jpeg
 

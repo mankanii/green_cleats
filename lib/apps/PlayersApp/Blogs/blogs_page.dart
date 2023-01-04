@@ -1,42 +1,63 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:green_cleats/apps/PlayersApp/Blogs/Article.dart';
 import 'package:green_cleats/apps/PlayersApp/Blogs/blog.dart';
 import 'package:green_cleats/utils/colors.dart';
 import 'package:green_cleats/widgets/big_text.dart';
+import 'package:http/http.dart' as http;
 
-final List<Map> articles = [
-  {
-    "category": "International News",
-    "title": "Is UCL race over?",
-    "author": "Unknown",
-    "date": "12/12/22",
-  },
-  {
-    "category": "Pakistan Football",
-    "title": "The ban is officially over",
-    "author": "Unknown",
-    "date": "12/12/22",
-  },
-  {
-    "category": "Karachi",
-    "title": "New futsal court in Town: Airfield",
-    "author": "Unknown",
-    "date": "12/12/22",
-  },
-  {
-    "category": "",
-    "title": "",
-    "author": "Unknown",
-    "date": "12/12/22",
-  },
-];
+Future<List<Article>> fetchArticle() async {
+  final response = await http.get(Uri.parse('http://localhost:3000/viewBlogs'));
+
+  if (response.statusCode == 200) {
+    // final List<dynamic> result = jsonDecode(response.body)["blogs"];
+    final List result = json.decode(response.body)["blogs"];
+    print(result);
+    return result.map((e) => Article.fromJson(e)).toList();
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+List<Map> articles = [];
+
+// {
+//   "category": "International News",
+//   "title": "Is UCL race over?",
+//   "author": "Unknown",
+//   "date": "12/12/22",
+// },
+// {
+//   "category": "Pakistan Football",
+//   "title": "The ban is officially over",
+//   "author": "Unknown",
+//   "date": "12/12/22",
+// },
+// {
+//   "category": "Karachi",
+//   "title": "New futsal court in Town: Airfield",
+//   "author": "Unknown",
+//   "date": "12/12/22",
+// },
+// {
+//   "category": "",
+//   "title": "",
+//   "author": "Unknown",
+//   "date": "12/12/22",
+// },
+// ];
 
 class BlogsPage extends StatefulWidget {
   const BlogsPage({super.key});
 
   @override
-  State<BlogsPage> createState() => _BlogsPageState();
+  State<BlogsPage> createState() {
+    fetchArticle();
+    return _BlogsPageState();
+  }
 }
 
 class _BlogsPageState extends State<BlogsPage> {
@@ -71,9 +92,9 @@ class _BlogsPageState extends State<BlogsPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Hero(
+                              const Hero(
                                 tag: "blogImage",
-                                child: const Image(
+                                child: Image(
                                   image: NetworkImage(
                                       'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
                                 ),
@@ -114,62 +135,139 @@ class _BlogsPageState extends State<BlogsPage> {
                               color: AppColors.animationGreenColor,
                               size: 20,
                             ),
-                            ListView.separated(
-                              shrinkWrap: true,
-                              primary: false,
-                              padding: const EdgeInsets.all(16.0),
-                              itemCount: articles.length,
-                              itemBuilder: (context, index) {
-                                return _buildArticleItem(context, index);
-                              },
-                              separatorBuilder: (context, index) =>
-                                  const SizedBox(height: 16.0),
+                            Center(
+                              child: FutureBuilder<List<Article>>(
+                                future: fetchArticle(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return ListView.separated(
+                                      shrinkWrap: true,
+                                      primary: false,
+                                      padding: const EdgeInsets.all(16.0),
+                                      itemCount: snapshot.data!.length,
+                                      itemBuilder: (context, index) {
+                                        // return _buildArticleItem(
+                                        //     context, index);
+                                        return Stack(
+                                          children: <Widget>[
+                                            Card(
+                                              child: InkWell(
+                                                splashColor: AppColors
+                                                    .animationBlueColor,
+                                                onTap: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            BlogPage()),
+                                                  );
+                                                  debugPrint('Card tapped.');
+                                                },
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Image.network(
+                                                      'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
+                                                      width: 100.0,
+                                                      height: 100.0,
+                                                    ),
+                                                    const SizedBox(width: 10.0),
+                                                    Expanded(
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: <Widget>[
+                                                          Text(
+                                                            snapshot
+                                                                .data![index]
+                                                                .category
+                                                                .toString(),
+                                                            textAlign: TextAlign
+                                                                .justify,
+                                                            style: TextStyle(
+                                                              color: AppColors
+                                                                  .animationGreenColor,
+                                                              // fontWeight: FontWeight.bold,
+                                                              fontSize: 15.0,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            snapshot
+                                                                .data![index]
+                                                                .title
+                                                                .toString(),
+                                                            // textAlign: TextAlign.justify,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .visible,
+                                                            style: TextStyle(
+                                                              color: AppColors
+                                                                  .animationBlueColor,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 20.0,
+                                                            ),
+                                                          ),
+                                                          Text.rich(
+                                                            TextSpan(
+                                                              children: [
+                                                                const WidgetSpan(
+                                                                  child: SizedBox(
+                                                                      width:
+                                                                          5.0),
+                                                                ),
+                                                                TextSpan(
+                                                                    text: snapshot
+                                                                        .data![
+                                                                            index]
+                                                                        .author
+                                                                        .toString(),
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            16.0)),
+                                                                const WidgetSpan(
+                                                                  child: SizedBox(
+                                                                      width:
+                                                                          20.0),
+                                                                ),
+                                                                const WidgetSpan(
+                                                                  child: SizedBox(
+                                                                      width:
+                                                                          5.0),
+                                                                ),
+                                                                TextSpan(
+                                                                  text: snapshot
+                                                                      .data![
+                                                                          index]
+                                                                      .date
+                                                                      .toString(),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            style: TextStyle(
+                                                                height: 2.0),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) =>
+                                          const SizedBox(height: 16.0),
+                                    );
+                                  } else if (snapshot.hasError) {
+                                    return Text('${snapshot.error}');
+                                  }
+                                  return const CircularProgressIndicator();
+                                },
+                              ),
                             ),
-                            // Padding(
-                            //   padding: const EdgeInsets.all(8.0),
-                            //   child: Card(
-                            //     child: InkWell(
-                            //       splashColor: AppColors.animationBlueColor,
-                            //       onTap: () {
-                            //         Navigator.push(
-                            //           context,
-                            //           MaterialPageRoute(
-                            //               builder: (context) => BlogPage()),
-                            //         );
-                            //         debugPrint('Card tapped.');
-                            //       },
-                            //       child: Row(
-                            //         children: [
-                            //           Image.network(
-                            //             'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
-                            //             width: 100.0,
-                            //             height: 100.0,
-                            //           ),
-                            //           Padding(
-                            //             padding: const EdgeInsets.all(8.0),
-                            //             child: Column(
-                            //               crossAxisAlignment:
-                            //                   CrossAxisAlignment.start,
-                            //               children: [
-                            //                 BigText(
-                            //                   text: "International News",
-                            //                   size: 18,
-                            //                   color:
-                            //                       AppColors.animationGreenColor,
-                            //                 ),
-                            //                 BigText(
-                            //                   text: "Is UCL race over?",
-                            //                   color: AppColors.blackColor,
-                            //                   size: 20,
-                            //                 )
-                            //               ],
-                            //             ),
-                            //           ),
-                            //         ],
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
                           ],
                         ),
                       ),
@@ -183,159 +281,4 @@ class _BlogsPageState extends State<BlogsPage> {
       ),
     );
   }
-}
-
-Widget _buildArticleItem(context, int index) {
-  Map article = articles[index];
-  // final String sample = images[2];
-  return Stack(
-    children: <Widget>[
-      Card(
-        child: InkWell(
-          splashColor: AppColors.animationBlueColor,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => BlogPage()),
-            );
-            debugPrint('Card tapped.');
-          },
-          child: Row(
-            children: <Widget>[
-              Image.network(
-                'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
-                width: 100.0,
-                height: 100.0,
-              ),
-              const SizedBox(width: 10.0),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      article["category"],
-                      textAlign: TextAlign.justify,
-                      style: TextStyle(
-                        color: AppColors.animationGreenColor,
-                        // fontWeight: FontWeight.bold,
-                        fontSize: 15.0,
-                      ),
-                    ),
-                    Text(
-                      article["title"],
-                      // textAlign: TextAlign.justify,
-                      overflow: TextOverflow.visible,
-                      style: TextStyle(
-                        color: AppColors.animationBlueColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                      ),
-                    ),
-                    Text.rich(
-                      TextSpan(
-                        children: [
-                          WidgetSpan(
-                            child: const SizedBox(width: 5.0),
-                          ),
-                          TextSpan(
-                              text: article["author"],
-                              style: TextStyle(fontSize: 16.0)),
-                          WidgetSpan(
-                            child: const SizedBox(width: 20.0),
-                          ),
-                          WidgetSpan(
-                            child: const SizedBox(width: 5.0),
-                          ),
-                          TextSpan(
-                            text: article["date"],
-                          ),
-                        ],
-                      ),
-                      style: TextStyle(height: 2.0),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      // Container(
-      //   width: 90,
-      //   height: 90,
-      //   color: AppColors.animationGreenColor,
-      // ),
-      // Container(
-      //   color: Colors.white,
-      //   padding: const EdgeInsets.all(16.0),
-      //   margin: const EdgeInsets.all(16.0),
-      //   child: Row(
-      //     children: <Widget>[
-      //       Container(
-      //         height: 100,
-      //         color: Colors.blue,
-      //         width: 80.0,
-      //         // child: PNetworkImage(
-      //         //   sample,
-      //         //   fit: BoxFit.cover,
-      //         // ),
-      //       ),
-      //       const SizedBox(width: 20.0),
-      //       Expanded(
-      //         child: Column(
-      //           children: <Widget>[
-      //             Text(
-      //               article["category"],
-      //               textAlign: TextAlign.justify,
-      //               style: TextStyle(
-      //                 color: AppColors.animationGreenColor,
-      //                 // fontWeight: FontWeight.bold,
-      //                 fontSize: 18.0,
-      //               ),
-      //             ),
-      //             Text(
-      //               article["title"],
-      //               // textAlign: TextAlign.justify,
-      //               style: TextStyle(
-      //                 color: AppColors.blackColor,
-      //                 fontWeight: FontWeight.bold,
-      //                 fontSize: 20.0,
-      //               ),
-      //             ),
-      //             Text.rich(
-      //               TextSpan(
-      //                 children: [
-      //                   WidgetSpan(
-      //                     child: CircleAvatar(
-      //                       radius: 15.0,
-      //                       backgroundColor: AppColors.khakiColor,
-      //                     ),
-      //                   ),
-      //                   WidgetSpan(
-      //                     child: const SizedBox(width: 5.0),
-      //                   ),
-      //                   TextSpan(
-      //                       text: article["author"],
-      //                       style: TextStyle(fontSize: 16.0)),
-      //                   WidgetSpan(
-      //                     child: const SizedBox(width: 20.0),
-      //                   ),
-      //                   WidgetSpan(
-      //                     child: const SizedBox(width: 5.0),
-      //                   ),
-      //                   TextSpan(
-      //                     text: article["time"],
-      //                   ),
-      //                 ],
-      //               ),
-      //               style: TextStyle(height: 2.0),
-      //             ),
-      //           ],
-      //         ),
-      //       )
-      //     ],
-      //   ),
-      // )
-    ],
-  );
 }
